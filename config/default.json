@@ -1,3 +1,4 @@
 {
-  "mongoURI" : "mongodb+srv://dementedearplug123:M3eSnDT3ZZOnFj4t@simple-contacts.prl32.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI" : "mongodb+srv://dementedearplug123:M3eSnDT3ZZOnFj4t@simple-contacts.prl32.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret":"myMilkSHakeBringsAllTheBoysToTheYard"
 }
