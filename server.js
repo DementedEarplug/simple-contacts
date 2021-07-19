@@ -1,6 +1,10 @@
+const connectDB = require("./config/db");
 const express = require("express");
 
 const app = express();
+
+// Connect to the database
+connectDB();
 
 // This future proofs you use 5000 for dev and env prot for deployment.
 const PORT = process.env.PORT || 5000;
