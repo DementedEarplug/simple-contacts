@@ -58,7 +58,7 @@ router.post(
         payload,
         config.get("jwtSecret"),
         {
-          expiresIn: 36000, // TODO: change this to 36000
+          expiresIn: 36000, // TODO: change this to 3600
         },
         (err, token) => {
           if (err) throw err;
