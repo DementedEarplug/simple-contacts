@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const express = require("express");
 const { check, validationResult } = require("express-validator");
+const auth = require('../middleware/auth')
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const User = require("../models/User");
 // @desc    Get logged in user
 // @access   private
 router.get(
-  "/",(req, res)=>{
+  "/",auth, (req, res)=>{
     res.send("Get logged in user");
   }
 );
