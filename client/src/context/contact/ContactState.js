@@ -11,7 +11,7 @@ import {
   FILTER_CONTACT,
   CLEAR_FILTER,
   SET_CURRENT,
-  REMOVE_CURRENT,
+  CLEAR_CURRENT,
 } from "../types";
 
 const ContactState = (props) => {
@@ -44,7 +44,7 @@ const ContactState = (props) => {
 
   // Pull out the state and dispatch from reducer by using the useReducer hook
   //* state - access anything in our state, dispatch - dispatch actions to reducer
-  const { state, dispatch } = useReducer(ContactReducer, initialState);
+  const [ state, dispatch ] = useReducer(ContactReducer, initialState);
 
   // Actions for the contact
 
