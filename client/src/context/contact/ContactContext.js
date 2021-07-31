@@ -1,5 +1,5 @@
 // Initializer for contacts context
-import { createContext } from "React";
+import { createContext } from "react";
 
 const contactContext = createContext();
 
