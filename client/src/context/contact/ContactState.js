@@ -44,6 +44,7 @@ const ContactState = (props) => {
 
   // Pull out the state and dispatch from reducer by using the useReducer hook
   //* state - access anything in our state, dispatch - dispatch actions to reducer
+  //* de-structure array returned by use reducer
   const [ state, dispatch ] = useReducer(ContactReducer, initialState);
 
   // Actions for the contact
