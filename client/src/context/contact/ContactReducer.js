@@ -8,39 +8,46 @@ import {
   CLEAR_CURRENT,
 } from "../types";
 
-export default (state, action) =>{
+export default (state, action) => {
   switch (action.type) {
     case ADD_CONTACT:
       return {
         ...state,
-        contacts:[...state.contacts, action.payload]
-      }
+        contacts: [...state.contacts, action.payload],
+      };
     case UPDATE_CONTACT:
-      
-      break;
+      return {
+        ...state,
+        contacts: state.contacts.map((contact) => {
+          if (contact.id === action.payload.id) {
+            return action.payload;
+          }
+          return contact;
+        }),
+      };
     case DELETE_CONTACT:
       return {
         ...state,
-        contacts: state.contacts.filter((contact)=>contact.id!==action.payload)
-      }
+        contacts: state.contacts.filter(
+          (contact) => contact.id !== action.payload
+        ),
+      };
     case FILTER_CONTACTS:
-      
       break;
     case CLEAR_FILTER:
-      
       break;
     case SET_CURRENT:
-      return{
+      return {
         ...state,
-        current: action.payload
-      }
+        current: action.payload,
+      };
     case CLEAR_CURRENT:
-      return{
+      return {
         ...state,
-        current: null
-      }
-  
+        current: null,
+      };
+
     default:
-      return state
+      return state;
   }
-}
+};
