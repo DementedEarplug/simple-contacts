@@ -19,8 +19,10 @@ export default (state, action) =>{
       
       break;
     case DELETE_CONTACT:
-      
-      break;
+      return {
+        ...state,
+        contacts:[...state.contacts.filter((contact)=>contact.id!==action.payload)]
+      }
     case FILTER_CONTACTS:
       
       break;
