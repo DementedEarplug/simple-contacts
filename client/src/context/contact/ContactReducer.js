@@ -30,11 +30,15 @@ export default (state, action) =>{
       
       break;
     case SET_CURRENT:
-      
-      break;
+      return{
+        ...state,
+        current: action.payload
+      }
     case CLEAR_CURRENT:
-      
-      break;
+      return{
+        ...state,
+        current: null
+      }
   
     default:
       return state

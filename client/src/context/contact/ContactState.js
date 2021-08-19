@@ -40,6 +40,7 @@ const ContactState = (props) => {
         email: "cookieStain@email.com",
       },
     ],
+    current: null
   };
 
   // Pull out the state and dispatch from reducer by using the useReducer hook
@@ -61,9 +62,13 @@ const ContactState = (props) => {
   // Update contact
 
   // Set Current contact
-
+  const setCurrentContact = (contact) => {
+    dispatch({ type: SET_CURRENT, payload: contact });
+  };
   // Clear current contact
-
+  const clearCurrentContact = () => {
+    dispatch({ type: CLEAR_CURRENT, });
+  };
   // Filter contacts
 
   // Clear Filters
@@ -74,8 +79,11 @@ const ContactState = (props) => {
     <ContactContext.Provider
       value={{
         contacts: state.contacts,
+        current: state.current,
         addContact,
         deleteContact,
+        setCurrentContact,
+        clearCurrentContact
       }}
     >
       {props.children}
