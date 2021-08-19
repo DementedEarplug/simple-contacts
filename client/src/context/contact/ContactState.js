@@ -1,14 +1,14 @@
 //* Use reducer gives access to state and "dispatch" to dispatch actions to the reducer
 
 import React, { useReducer } from "react";
-import uuid from "uuid";
+import {v4 as uuid} from "uuid";
 import ContactContext from "./ContactContext";
 import ContactReducer from "./ContactReducer";
 import {
   ADD_CONTACT,
   UPDATE_CONTACT,
   DELETE_CONTACT,
-  FILTER_CONTACT,
+  FILTER_CONTACTS,
   CLEAR_FILTER,
   SET_CURRENT,
   CLEAR_CURRENT,
@@ -45,12 +45,15 @@ const ContactState = (props) => {
   // Pull out the state and dispatch from reducer by using the useReducer hook
   //* state - access anything in our state, dispatch - dispatch actions to reducer
   //* de-structure array returned by use reducer
-  const [ state, dispatch ] = useReducer(ContactReducer, initialState);
+  const [state, dispatch] = useReducer(ContactReducer, initialState);
 
   // Actions for the contact
 
   // Add contact
-
+  const addContact = (contact) => {
+    contact.id = uuid()
+    dispatch({ type: ADD_CONTACT, payload: contact });
+  };
   // Delete contact
 
   // Update contact
@@ -69,6 +72,7 @@ const ContactState = (props) => {
     <ContactContext.Provider
       value={{
         contacts: state.contacts,
+        addContact: addContact
       }}
     >
       {props.children}

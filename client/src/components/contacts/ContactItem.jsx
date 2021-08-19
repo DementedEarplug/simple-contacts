@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 
 const ContactItem = ({ contact }) => {
-  console.log(contact.contact);
   const { name, id, phone, email, type } = contact;
   return (
     <div className='card bg-light'>
