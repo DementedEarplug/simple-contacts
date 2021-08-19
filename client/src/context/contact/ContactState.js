@@ -40,7 +40,8 @@ const ContactState = (props) => {
         email: "cookieStain@email.com",
       },
     ],
-    current: null
+    current: null,
+    filtered: null
   };
 
   // Pull out the state and dispatch from reducer by using the useReducer hook
@@ -72,9 +73,13 @@ const ContactState = (props) => {
     dispatch({ type: CLEAR_CURRENT, });
   };
   // Filter contacts
-
+  const filterContacts = (text) => {
+    dispatch({ type: FILTER_CONTACTS, payload: text });
+  };
   // Clear Filters
-
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER, });
+  };
   // * Returning the provider allows you to wrap the app with this context and have access to it.
   // * Anything that you want to access from other component needs to go inside the value field
   return (
@@ -82,11 +87,14 @@ const ContactState = (props) => {
       value={{
         contacts: state.contacts,
         current: state.current,
+        filtered: state.filtered,
         addContact,
         deleteContact,
         setCurrentContact,
         clearCurrentContact,
-        updateContact
+        updateContact,
+        filterContacts,
+        clearFilter
       }}
     >
       {props.children}
