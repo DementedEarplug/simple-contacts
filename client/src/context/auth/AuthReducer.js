@@ -12,9 +12,24 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case REGISTER_SUCCESS:
-      break;
+      localStorage.setItem("token", action.payload.token);
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: true,
+        loading: false,
+      };
     case REGISTER_FAIL:
-      break;
+      // Reset everything
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: true,
+        user: null,
+        error: action.payload,
+      };
     case USER_LOADED:
       break;
     case AUTH_ERROR:
@@ -26,7 +41,7 @@ export default (state, action) => {
     case LOGOUT:
       break;
     case CLEAR_ERRORS:
-      break;
+      return { ...state, error: null };
     default:
       return state;
   }
