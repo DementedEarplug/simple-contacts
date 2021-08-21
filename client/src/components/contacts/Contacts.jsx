@@ -11,38 +11,46 @@ const Contacts = () => {
   const { contacts, filtered, getContacts, loading } = contactContext;
 
   useEffect(() => {
-    getContacts()
-  }, [])
+    getContacts();
+  }, []);
 
-  if (contacts.length === 0) {
+  if (contacts && contacts.length === 0 && !loading) {
     return <h4 className='text-center'>Please a a contact.</h4>;
   }
 
   return (
     <Fragment>
-      {loading? <p>Loading...</p>:<>
-      <FilterContacts />
-      <TransitionGroup>
-        {filtered
-          ? filtered.map((contact) => {
-              console.log(contact);
-              return (
-                <CSSTransition
-                  key={contact._id}
-                  timeout={500}
-                  classNames='item'
-                >
-                  <ContactItem contact={contact} />
-                </CSSTransition>
-              );
-            })
-          : contacts.map((contact) => (
-              <CSSTransition key={contact._id} timeout={500} classNames='item'>
-                <ContactItem contact={contact} />
-              </CSSTransition>
-            ))}
-      </TransitionGroup>
-      </>}
+      {loading && contacts === null ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <FilterContacts />
+          <TransitionGroup>
+            {filtered
+              ? filtered.map((contact) => {
+                  console.log(contact);
+                  return (
+                    <CSSTransition
+                      key={contact._id}
+                      timeout={500}
+                      classNames='item'
+                    >
+                      <ContactItem contact={contact} />
+                    </CSSTransition>
+                  );
+                })
+              : contacts.map((contact) => (
+                  <CSSTransition
+                    key={contact._id}
+                    timeout={500}
+                    classNames='item'
+                  >
+                    <ContactItem contact={contact} />
+                  </CSSTransition>
+                ))}
+          </TransitionGroup>
+        </>
+      )}
     </Fragment>
   );
 };
