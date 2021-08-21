@@ -1,9 +1,10 @@
 //* Use reducer gives access to state and "dispatch" to dispatch actions to the reducer
 
 import React, { useReducer } from "react";
-import {v4 as uuid} from "uuid";
+import axios from "axios";
 import ContactContext from "./ContactContext";
 import ContactReducer from "./ContactReducer";
+
 import {
   ADD_CONTACT,
   UPDATE_CONTACT,
@@ -12,6 +13,8 @@ import {
   CLEAR_FILTER,
   SET_CURRENT,
   CLEAR_CURRENT,
+  GET_CONTACTS,
+  CONTACT_ERROR,
 } from "../types";
 
 const ContactState = (props) => {
@@ -41,7 +44,9 @@ const ContactState = (props) => {
       },
     ],
     current: null,
-    filtered: null
+    filtered: null,
+    error: null,
+    loading: true
   };
 
   // Pull out the state and dispatch from reducer by using the useReducer hook
@@ -50,36 +55,87 @@ const ContactState = (props) => {
   const [state, dispatch] = useReducer(ContactReducer, initialState);
 
   // Actions for the contact
-
+  
   // Add contact
-  const addContact = (contact) => {
-    contact.id = uuid()
-    dispatch({ type: ADD_CONTACT, payload: contact });
+  const addContact = async (contact) => {
+    // set headers
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const res = await axios.post("/api/contacts", contact, config);
+      dispatch({
+        type: ADD_CONTACT,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: CONTACT_ERROR,
+        payload: err.response.msg,
+      });
+    }
   };
   // Delete contact
   const deleteContact = (contactId) => {
-    dispatch({ type: DELETE_CONTACT, payload: contactId });
+    try {
+      const res = axios.get("/api/auth");
+      dispatch({ type: DELETE_CONTACT, payload: contactId });
+    } catch (err) {}
   };
   // Update contact
   const updateContact = (contact) => {
-    dispatch({ type: UPDATE_CONTACT, payload: contact });
+    try {
+      const res = axios.get("/api/auth");
+      dispatch({ type: UPDATE_CONTACT, payload: contact });
+    } catch (err) {}
   };
   // Set Current contact
   const setCurrentContact = (contact) => {
-    dispatch({ type: SET_CURRENT, payload: contact });
+    try {
+      const res = axios.get("/api/auth");
+      dispatch({ type: SET_CURRENT, payload: contact });
+    } catch (err) {}
   };
   // Clear current contact
   const clearCurrentContact = () => {
-    dispatch({ type: CLEAR_CURRENT, });
+    try {
+      const res = axios.get("/api/auth");
+      dispatch({ type: CLEAR_CURRENT });
+    } catch (err) {}
   };
   // Filter contacts
   const filterContacts = (text) => {
-    dispatch({ type: FILTER_CONTACTS, payload: text });
+    try {
+      const res = axios.get("/api/auth");
+      dispatch({ type: FILTER_CONTACTS, payload: text });
+    } catch (err) {}
   };
+
   // Clear Filters
   const clearFilter = () => {
-    dispatch({ type: CLEAR_FILTER, });
+    dispatch({ type: CLEAR_FILTER });
   };
+
+  // Get contacts
+  const getContacts = async () =>{
+    try {
+      const res = await axios.get('/api/contacts')
+      dispatch({
+        type: GET_CONTACTS,
+        payload: res.data
+      })
+    } catch (err) {
+      dispatch({
+        type: CONTACT_ERROR,
+        payload: err.response.msg
+      })
+    }
+  }
+  
   // * Returning the provider allows you to wrap the app with this context and have access to it.
   // * Anything that you want to access from other component needs to go inside the value field
   return (
@@ -88,13 +144,16 @@ const ContactState = (props) => {
         contacts: state.contacts,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
+        loading: state.loading,
         addContact,
         deleteContact,
         setCurrentContact,
         clearCurrentContact,
         updateContact,
         filterContacts,
-        clearFilter
+        clearFilter,
+        getContacts
       }}
     >
       {props.children}

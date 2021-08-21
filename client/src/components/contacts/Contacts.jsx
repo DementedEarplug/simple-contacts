@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from "react";
+import React, { useContext, Fragment, useEffect } from "react";
 import ContactContext from "../../context/contact/ContactContext";
 import ContactItem from "./ContactItem";
 import FilterContacts from "./FilterContacts";
@@ -8,7 +8,11 @@ const Contacts = () => {
   // gives access to the state of this context.
   const contactContext = useContext(ContactContext);
 
-  const { contacts, filtered } = contactContext;
+  const { contacts, filtered, getContacts, loading } = contactContext;
+
+  useEffect(() => {
+    getContacts()
+  }, [])
 
   if (contacts.length === 0) {
     return <h4 className='text-center'>Please a a contact.</h4>;
@@ -16,20 +20,29 @@ const Contacts = () => {
 
   return (
     <Fragment>
+      {loading? <p>Loading...</p>:<>
       <FilterContacts />
-      <TransitionGroup className=''>
+      <TransitionGroup>
         {filtered
-          ? filtered.map((contact) => (
-              <CSSTransition key={contact.id} timeout={500} classNames="item" >
-                <ContactItem contact={contact} />
-              </CSSTransition>
-            ))
+          ? filtered.map((contact) => {
+              console.log(contact);
+              return (
+                <CSSTransition
+                  key={contact._id}
+                  timeout={500}
+                  classNames='item'
+                >
+                  <ContactItem contact={contact} />
+                </CSSTransition>
+              );
+            })
           : contacts.map((contact) => (
-              <CSSTransition key={contact.id} timeout={500} classNames="item" >
+              <CSSTransition key={contact._id} timeout={500} classNames='item'>
                 <ContactItem contact={contact} />
               </CSSTransition>
             ))}
       </TransitionGroup>
+      </>}
     </Fragment>
   );
 };
