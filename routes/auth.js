@@ -15,11 +15,11 @@ const User = require("../models/User");
 // @access   private
 router.get("/", auth, async (req, res) => {
   try {
-    let user = await User.findById(requser.id).select('-password')
+    let user = await User.findById(req.user.id).select('-password')
     res.json(user)
   } catch (err) {
     console.log(err.message)
-    res.status(500).json({msg:'Server error'})
+    // res.status(500).json({msg:'Server error'})
   }
 });
 

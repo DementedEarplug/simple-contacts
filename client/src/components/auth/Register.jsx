@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alerts/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
-const Register = () => {
+const Register = (props) => {
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -14,14 +14,19 @@ const Register = () => {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { registerUser, error, clearErrors } = authContext;
+  const { registerUser, error, clearErrors, isAuthenticated } = authContext;
 
   useEffect(() => {
-    if(error==="User already exists"){
-      setAlert(error, 'danger')
-      clearErrors()
+    // redirect to home upon registering.
+    if (isAuthenticated) {
+      props.history.push("/");
     }
-  }, [error])
+
+    if (error === "User already exists") {
+      setAlert(error, "danger");
+      clearErrors();
+    }
+  }, [error, isAuthenticated, props.history]);
 
   const { name, email, password, confirmPassword } = user;
 
@@ -43,7 +48,7 @@ const Register = () => {
     }
 
     if (!errors) {
-      registerUser(user)
+      registerUser(user);
     }
   };
 

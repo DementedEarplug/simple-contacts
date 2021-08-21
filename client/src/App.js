@@ -12,6 +12,12 @@ import Login from "./components/auth/Login";
 import ContactState from "./context/contact/ContactState";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alerts/AlertState";
+import setAuthToken from './utils/setAuthToken'
+
+// set auth token to hit protected routes.
+if(localStorage.token){
+  setAuthToken(localStorage.token)
+} 
 
 const App = () => {
   return (
