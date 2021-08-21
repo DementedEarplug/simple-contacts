@@ -15,6 +15,7 @@ import {
   CLEAR_CURRENT,
   GET_CONTACTS,
   CONTACT_ERROR,
+  CLEAR_CONTACTS_FROM_STATE
 } from "../types";
 
 const ContactState = (props) => {
@@ -113,6 +114,13 @@ const ContactState = (props) => {
       })
     }
   }
+
+  // Clear contacts
+  const clearContactsFromState = () =>{
+    dispatch({
+      type: CLEAR_CONTACTS_FROM_STATE
+    })
+  }
   
   // * Returning the provider allows you to wrap the app with this context and have access to it.
   // * Anything that you want to access from other component needs to go inside the value field
@@ -131,7 +139,8 @@ const ContactState = (props) => {
         updateContact,
         filterContacts,
         clearFilter,
-        getContacts
+        getContacts,
+        clearContactsFromState
       }}
     >
       {props.children}

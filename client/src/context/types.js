@@ -8,6 +8,7 @@ export const SET_CURRENT = "SET_CURRENT"
 export const CLEAR_CURRENT = "CLEAR_CURRENT"
 export const CONTACT_ERROR = "CONTACT_ERROR"
 export const GET_CONTACTS = "GET_CONTACTS"
+export const CLEAR_CONTACTS_FROM_STATE = "CLEAR_CONTACTS_FROM_STATE"
 
 // Alerts
 export const SET_ALERT = "SET_ALERT"

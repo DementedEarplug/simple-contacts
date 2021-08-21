@@ -20,9 +20,7 @@ const Contacts = () => {
 
   return (
     <Fragment>
-      {loading && contacts === null ? (
-        <p>Loading...</p>
-      ) : (
+      {!loading && contacts !== null ? (
         <>
           <FilterContacts />
           <TransitionGroup>
@@ -50,6 +48,8 @@ const Contacts = () => {
                 ))}
           </TransitionGroup>
         </>
+      ) : (
+        <p>Loading...</p>
       )}
     </Fragment>
   );
