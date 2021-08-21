@@ -57,7 +57,7 @@ router.post(
 );
 
 // @route   PUT api/contacts/:id
-// @desc    Add new contact
+// @desc    update
 // @access  private
 router.put("/:id", auth, async (req, res) => {
   const { name, email, phone, type } = req.body;
