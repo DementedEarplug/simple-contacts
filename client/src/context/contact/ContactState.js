@@ -15,7 +15,7 @@ import {
   CLEAR_CURRENT,
   GET_CONTACTS,
   CONTACT_ERROR,
-  CLEAR_CONTACTS_FROM_STATE
+  CLEAR_CONTACTS_FROM_STATE,
 } from "../types";
 
 const ContactState = (props) => {
@@ -25,7 +25,7 @@ const ContactState = (props) => {
     current: null,
     filtered: null,
     error: null,
-    loading: true
+    loading: true,
   };
 
   // Pull out the state and dispatch from reducer by using the useReducer hook
@@ -34,7 +34,7 @@ const ContactState = (props) => {
   const [state, dispatch] = useReducer(ContactReducer, initialState);
 
   // Actions for the contact
-  
+
   // Add contact
   const addContact = async (contact) => {
     // set headers
@@ -61,8 +61,12 @@ const ContactState = (props) => {
   // Delete contact
   const deleteContact = (contactId) => {
     try {
-      const res = axios.get("/api/auth");
-      dispatch({ type: DELETE_CONTACT, payload: contactId });
+      const res = axios.delete(`/api/contacts/${contactId}`);
+      dispatch({
+        type: DELETE_CONTACT,
+        contactId,
+        payload: res.data,
+      });
     } catch (err) {}
   };
   // Update contact
@@ -100,28 +104,28 @@ const ContactState = (props) => {
   };
 
   // Get contacts
-  const getContacts = async () =>{
+  const getContacts = async () => {
     try {
-      const res = await axios.get('/api/contacts')
+      const res = await axios.get("/api/contacts");
       dispatch({
         type: GET_CONTACTS,
-        payload: res.data
-      })
+        payload: res.data,
+      });
     } catch (err) {
       dispatch({
         type: CONTACT_ERROR,
-        payload: err.response.msg
-      })
+        payload: err.response.msg,
+      });
     }
-  }
+  };
 
   // Clear contacts
-  const clearContactsFromState = () =>{
+  const clearContactsFromState = () => {
     dispatch({
-      type: CLEAR_CONTACTS_FROM_STATE
-    })
-  }
-  
+      type: CLEAR_CONTACTS_FROM_STATE,
+    });
+  };
+
   // * Returning the provider allows you to wrap the app with this context and have access to it.
   // * Anything that you want to access from other component needs to go inside the value field
   return (
@@ -140,7 +144,7 @@ const ContactState = (props) => {
         filterContacts,
         clearFilter,
         getContacts,
-        clearContactsFromState
+        clearContactsFromState,
       }}
     >
       {props.children}

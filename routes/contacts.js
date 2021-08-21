@@ -95,6 +95,7 @@ router.put("/:id", auth, async (req, res) => {
 // @desc    Delete a contact
 // @access  private
 router.delete("/:id", auth, async (req, res) => {
+  console.log('In here question mark???')
   try {
     let contact = await Contact.findById(req.params.id);
 

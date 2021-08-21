@@ -40,9 +40,10 @@ export default (state, action) => {
       return {
         ...state,
         contacts: state.contacts.filter(
-          (contact) => contact.id !== action.payload
+          (contact) => contact._id !== action.contactId
         ),
         loading: false,
+        error: action.payload
       };
     case FILTER_CONTACTS:
       return {

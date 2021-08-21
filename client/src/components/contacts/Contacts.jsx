@@ -26,7 +26,6 @@ const Contacts = () => {
           <TransitionGroup>
             {filtered
               ? filtered.map((contact) => {
-                  console.log(contact);
                   return (
                     <CSSTransition
                       key={contact._id}

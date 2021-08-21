@@ -67,7 +67,6 @@ const AuthState = (props) => {
         type: REGISTER_SUCCESS,
         payload: res.data,
       });
-      console.log("Register Sucess");
 
       // get user from backend
       loadUser();
@@ -94,8 +93,6 @@ const AuthState = (props) => {
         type: LOGIN_SUCCESS,
         payload: res.data,
       });
-      console.log("Login Sucess");
-
       // get user from backend
       loadUser();
     } catch (err) {
