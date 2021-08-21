@@ -12,6 +12,7 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case REGISTER_SUCCESS:
+    case LOGIN_SUCCESS:
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
@@ -21,6 +22,7 @@ export default (state, action) => {
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
+    case LOGIN_FAILED:
     case LOGOUT:
       // Reset everything
       localStorage.removeItem("token");
@@ -32,6 +34,16 @@ export default (state, action) => {
         user: null,
         error: action.payload,
       };
+    // case LOGOUT:
+    //   // Reset everything
+    //   localStorage.removeItem("token");
+    //   return {
+    //     ...state,
+    //     token: null,
+    //     isAuthenticated: false,
+    //     loading: true,
+    //     user: null,
+    //   };
     case USER_LOADED:
       return {
         ...state,
@@ -39,10 +51,6 @@ export default (state, action) => {
         loading: false,
         user: action.payload,
       };
-    case LOGIN_SUCCESS:
-      break;
-    case LOGIN_FAILED:
-      break;
     case CLEAR_ERRORS:
       return { ...state, error: null };
     default:

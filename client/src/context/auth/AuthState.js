@@ -3,7 +3,7 @@ import axios from "axios";
 
 import AuthContext from "./AuthContext";
 import AuthReducer from "./AuthReducer";
-import setAuthToken from '../../utils/setAuthToken'
+import setAuthToken from "../../utils/setAuthToken";
 
 import {
   REGISTER_SUCCESS,
@@ -35,12 +35,12 @@ const AuthState = (props) => {
   // Actions for the auth context
 
   // Load user
-  const loadUser = async  () => {
+  const loadUser = async () => {
     // Set auth token to hit protected routes.
-    if(localStorage.token){
-      setAuthToken(localStorage.token)
-    } 
-    
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
     try {
       const res = await axios.get("/api/auth");
       dispatch({
@@ -48,7 +48,7 @@ const AuthState = (props) => {
         payload: res.data,
       });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       dispatch({ type: AUTH_ERROR });
     }
   };
@@ -70,7 +70,7 @@ const AuthState = (props) => {
       console.log("Register Sucess");
 
       // get user from backend
-      loadUser()
+      loadUser();
     } catch (err) {
       console.log(err.response.data.msg);
       dispatch({
@@ -81,14 +81,38 @@ const AuthState = (props) => {
   };
 
   // Login User
-  const login = (params) => {};
+  const login = async (formData) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const res = await axios.post("/api/auth", formData, config);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+      console.log("Login Sucess");
+
+      // get user from backend
+      loadUser();
+    } catch (err) {
+      console.log(err.response.data.msg);
+      dispatch({
+        type: LOGIN_FAILED,
+        payload: err.response.data.msg,
+      });
+    }
+  };
 
   // Logout
   const logout = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem("token");
     dispatch({
-      type: LOGIN_SUCCESS
-    })
+      type: LOGOUT,
+    });
   };
 
   // Clear Errors

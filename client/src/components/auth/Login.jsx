@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import AlertContext from "../../context/alerts/AlertContext";
+import AuthContext from "../../context/auth/AuthContext";
 
-const Login = () => {
+const Login = (props) => {
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+  const { setAlert } = alertContext;
+  const { login, error, clearErrors, isAuthenticated } = authContext;
+
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    // redirect to home upon registering.
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
+
+    if (error) {
+      setAlert(error, "danger");
+      clearErrors();
+    }
+  }, [error, isAuthenticated, props.history]);
 
   const { email, password } = user;
 
@@ -14,7 +34,16 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("Register");
+    let errors = false;
+
+    if (email === "" || password === "") {
+      errors = true;
+      setAlert("Pleas dont be a doofus.", "danger");
+    }
+
+    if (!errors) {
+      login(user);
+    }
   };
 
   return (
@@ -30,7 +59,7 @@ const Login = () => {
         <div className='form-group'>
           <label htmlFor='password'>Password</label>
           <input
-            type='text'
+            type='password'
             name='password'
             value={password}
             onChange={onChange}
